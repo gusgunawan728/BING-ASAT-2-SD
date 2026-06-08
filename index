@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASAT Bahasa Inggris Kelas 2 SD</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:linear-gradient(180deg,#87CEFA,#E6F7FF);
+min-height:100vh;
+padding:20px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+border-radius:30px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.header{
+background:linear-gradient(90deg,#ffb703,#ff7b00);
+padding:25px;
+text-align:center;
+color:white;
+}
+
+.header h1{
+font-size:42px;
+font-weight:900;
+text-shadow:2px 2px 4px rgba(0,0,0,.2);
+}
+
+.header h2{
+font-size:22px;
+margin-top:8px;
+}
+
+.header p{
+margin-top:8px;
+font-size:18px;
+}
+
+.progress{
+height:15px;
+background:#ddd;
+}
+
+.fill{
+height:100%;
+width:0%;
+background:#00c853;
+transition:.4s;
+}
+
+.content{
+padding:25px;
+}
+
+.info{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+font-weight:bold;
+}
+
+.badge{
+padding:8px 15px;
+border-radius:15px;
+background:#4cc9f0;
+color:white;
+}
+
+.question{
+font-size:24px;
+font-weight:bold;
+margin-bottom:20px;
+line-height:1.5;
+}
+
+.option{
+display:block;
+width:100%;
+padding:15px;
+margin:10px 0;
+border:none;
+border-radius:15px;
+cursor:pointer;
+font-size:18px;
+font-weight:bold;
+text-align:left;
+background:#f8f9fa;
+transition:.3s;
+}
+
+.option:hover{
+transform:translateY(-2px);
+background:#ffe082;
+}
+
+.result{
+display:none;
+text-align:center;
+padding:40px;
+}
+
+.score{
+font-size:70px;
+font-weight:bold;
+color:#ff6d00;
+}
+
+.restart{
+margin-top:20px;
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:20px;
+background:#00c853;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+.footer{
+background:#e8f5e9;
+padding:20px;
+text-align:center;
+font-size:18px;
+font-weight:bold;
+}
+
+.icon{
+font-size:35px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>🌈 ASAT BAHASA INGGRIS</h1>
+<h2>KELAS 2 SD</h2>
+<p>25 Soal Pilihan Ganda</p>
+</div>
+
+<div class="progress">
+<div class="fill" id="fill"></div>
+</div>
+
+<div id="quiz" class="content">
+
+<div class="info">
+<span id="nomor">Soal 1</span>
+<span id="kategori" class="badge">Family</span>
+</div>
+
+<div id="soal" class="question"></div>
+
+<div id="opsi"></div>
+
+</div>
+
+<div id="hasil" class="result">
+
+<h2>🎉 Excellent!</h2>
+
+<div class="score" id="nilai">0</div>
+
+<h3 id="pesan"></h3>
+
+<button class="restart" onclick="location.reload()">
+🔄 Ulangi Kuis
+</button>
+
+</div>
+
+<div class="footer">
+📚 Learn • Think • Speak English Every Day
+</div>
+
+</div>
+
+<script>
+
+const quizData=[
+
+{
+kategori:"Family 👨‍👩‍👧",
+q:"Who is he?",
+opsi:["Mother","Father","Sister"],
+jawab:1
+},
+{
+kategori:"Family 👨‍👩‍👧",
+q:"My mother's daughter is my ....",
+opsi:["Brother","Sister","Father"],
+jawab:1
+},
+{
+kategori:"Adjectives 🦒",
+q:"The giraffe is ....",
+opsi:["Tall","Short","Small"],
+jawab:0
+},
+{
+kategori:"Adjectives 🐱",
+q:"The cat is very ....",
+opsi:["Cute","Dirty","Angry"],
+jawab:0
+},
+{
+kategori:"Animal Parts 🐘",
+q:"What is 'ear' in Indonesian?",
+opsi:["Mata","Telinga","Kaki"],
+jawab:1
+},
+{
+kategori:"Animal Parts 🐘",
+q:"The elephant has a long ....",
+opsi:["Tail","Nose","Trunk"],
+jawab:2
+},
+{
+kategori:"Guess Animal 🦁",
+q:"It lives in the jungle and has a mane.",
+opsi:["Monkey","Lion","Cat"],
+jawab:1
+},
+{
+kategori:"Guess Animal 🐵",
+q:"It likes bananas and can climb trees.",
+opsi:["Monkey","Lion","Tiger"],
+jawab:0
+},
+{
+kategori:"Guess Animal 🦁",
+q:"This animal says 'Roar!'",
+opsi:["Lion","Bird","Fish"],
+jawab:0
+},
+{
+kategori:"Animals 🐦",
+q:"Which animal can fly?",
+opsi:["Bird","Crocodile","Bear"],
+jawab:0
+},
+{
+kategori:"Animals 🐟",
+q:"Which animal lives in water?",
+opsi:["Fish","Horse","Cat"],
+jawab:0
+},
+{
+kategori:"Animals 🐊",
+q:"The crocodile is ....",
+opsi:["Big","Small","Tiny"],
+jawab:0
+},
+{
+kategori:"Animals 🐻",
+q:"Bears like to eat ....",
+opsi:["Honey","Stone","Pencil"],
+jawab:0
+},
+{
+kategori:"Foods 🍎",
+q:"Which one is a fruit?",
+opsi:["Apple","Pizza","Bread"],
+jawab:0
+},
+{
+kategori:"Foods 🍕",
+q:"I am round and cheesy. What am I?",
+opsi:["Bread","Pizza","Ice cream"],
+jawab:1
+},
+{
+kategori:"Foods 🍦",
+q:"Ice cream tastes ....",
+opsi:["Sweet","Sour","Salty"],
+jawab:0
+},
+{
+kategori:"Foods 🍞",
+q:"We eat bread for ....",
+opsi:["Food","Animal","Toy"],
+jawab:0
+},
+{
+kategori:"Foods 🍨",
+q:"Which food is cold?",
+opsi:["Pizza","Apple","Ice cream"],
+jawab:2
+},
+{
+kategori:"Animal Parts 🐟",
+q:"Fish use their .... to swim.",
+opsi:["Fins","Wings","Horns"],
+jawab:0
+},
+{
+kategori:"Animal Parts 🐶",
+q:"A dog has four ....",
+opsi:["Wings","Legs","Fins"],
+jawab:1
+},
+{
+kategori:"Animal Parts 🦋",
+q:"Butterflies have beautiful ....",
+opsi:["Wings","Teeth","Hooves"],
+jawab:0
+},
+{
+kategori:"Animal Parts 🐴",
+q:"A horse has a long ....",
+opsi:["Tail","Fin","Beak"],
+jawab:0
+},
+{
+kategori:"Animal Parts 🐦",
+q:"What part does a bird use to fly?",
+opsi:["Wings","Tail","Nose"],
+jawab:0
+},
+{
+kategori:"Animal Parts 🐟",
+q:"A fish has ....",
+opsi:["Fins","Hands","Feet"],
+jawab:0
+},
+{
+kategori:"Animal Parts 🦋",
+q:"Which animal has wings?",
+opsi:["Butterfly","Fish","Horse"],
+jawab:0
+}
+
+];
+
+let nomor=0;
+let skor=0;
+
+function tampilSoal(){
+
+const s=quizData[nomor];
+
+document.getElementById("nomor").innerHTML=
+`📖 Soal ${nomor+1} / ${quizData.length}`;
+
+document.getElementById("kategori").innerHTML=s.kategori;
+
+document.getElementById("soal").innerHTML=s.q;
+
+document.getElementById("fill").style.width=
+((nomor)/quizData.length*100)+"%";
+
+let html="";
+
+s.opsi.forEach((opsi,index)=>{
+
+html+=`
+<button class="option"
+onclick="jawab(${index})">
+${String.fromCharCode(65+index)}. ${opsi}
+</button>
+`;
+
+});
+
+document.getElementById("opsi").innerHTML=html;
+
+}
+
+function jawab(index){
+
+if(index===quizData[nomor].jawab){
+skor++;
+}
+
+nomor++;
+
+if(nomor<quizData.length){
+tampilSoal();
+}else{
+selesai();
+}
+
+}
+
+function selesai(){
+
+document.getElementById("quiz").style.display="none";
+document.getElementById("hasil").style.display="block";
+
+let nilai=Math.round(
+(skor/quizData.length)*100
+);
+
+document.getElementById("nilai").innerHTML=nilai;
+
+let pesan="";
+
+if(nilai>=90){
+pesan="🌟 Amazing! You are an English Star!";
+}
+else if(nilai>=80){
+pesan="🎉 Great Job!";
+}
+else if(nilai>=70){
+pesan="👍 Good Work!";
+}
+else{
+pesan="📚 Keep Practicing English!";
+}
+
+document.getElementById("pesan").innerHTML=pesan;
+
+document.getElementById("fill").style.width="100%";
+
+}
+
+tampilSoal();
+
+</script>
+
+</body>
+</html>
